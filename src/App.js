@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Menu from './components/Menu'
+import Content from './components/Content'
+const BOOKS_URL = 'https://raw.githubusercontent.com/benoitvallon/100-best-books/master/books.json'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      books: []
+    }
+  }
+
+  componentDidMount() {
+
+    fetch(BOOKS_URL).then((data) => {
+      return data.json()
+    }).then((json) => {
+      this.setState({books: json})
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className= "App">
+        <Menu />
+        <Content books = {this.state.books}/>
       </div>
     );
   }
